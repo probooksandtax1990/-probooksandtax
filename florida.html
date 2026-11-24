@@ -40,6 +40,23 @@
     padding:9px 18px;border-radius:8px;font-size:14.5px!important;transition:transform .15s,background .2s}
   .nav-call:hover{background:var(--gold-light);transform:translateY(-1px)}
   @media(max-width:760px){.nav-links a:not(.nav-call){display:none}}
+  /* ---------- PHONE MENU (11/23) ---------- */
+  .burger{display:none;width:44px;height:44px;border:1px solid rgba(201,161,59,.45);border-radius:9px;
+    background:transparent;cursor:pointer;flex-direction:column;justify-content:center;align-items:center;gap:5px}
+  .burger span{display:block;width:20px;height:2px;background:var(--gold-light);border-radius:2px;transition:transform .2s,opacity .2s}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mnav{background:var(--navy-deep);border-top:1px solid rgba(201,161,59,.25);max-height:calc(100vh - 64px);overflow-y:auto}
+  .mnav-in{display:flex;flex-direction:column;padding-top:10px;padding-bottom:20px}
+  .mnav-in a{color:var(--white);text-decoration:none;font-size:17px;font-weight:500;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .mnav-in a.sub{padding-left:18px;font-size:16px;color:#d5dde6}
+  .mnav-h{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);padding:16px 4px 4px}
+  .mnav-cta{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+  .mnav-cta .btn{justify-content:center;border-bottom:0}
+  .mnav-tel{border:1.5px solid rgba(255,255,255,.35)!important;color:var(--white)}
+  @media(max-width:760px){.nav-links{display:none}.burger{display:flex}}
+
 
   /* ---------- HERO ---------- */
   header{background:
@@ -224,6 +241,23 @@
       <a href="#about">About</a>
       <a class="nav-call" href="tel:+17724750256">(772) 475-0256</a>
     </div>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mnav" id="mnav" hidden>
+    <div class="wrap mnav-in">
+      <a href="/">Home</a>
+      <a href="#how">Getting started</a>
+      <a href="#fees">Florida pricing</a>
+      <div class="mnav-h">Services and pricing</div>
+      <a class="sub" href="/#fees-returns">Tax returns</a>
+      <a class="sub" href="/#fees-irs">IRS and state letters</a>
+      <a class="sub" href="/#fees-business">Business and bookkeeping</a>
+      <a class="sub" href="/#fees-bundles">Bundles</a>
+      <a href="#about">About</a>
+      <a href="/#reviews">Reviews</a>
+      <a href="/watch">Watch</a>
+      <div class="mnav-cta"><a class="btn btn-gold" href="https://calendar.app.google/QFeqhFVibFvL8BRv5">Book a free call</a><a class="btn mnav-tel" href="tel:+17724750256">Call (772) 475-0256</a></div>
+    </div>
   </div>
 </nav>
 
@@ -381,6 +415,16 @@
     if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
   }), { threshold: .12 });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+
+<script>
+  (function(){
+    const bg = document.querySelector('.burger'), mn = document.getElementById('mnav');
+    if (!bg || !mn) return;
+    function setMenu(open){ mn.hidden = !open; bg.setAttribute('aria-expanded', String(open)); bg.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); }
+    bg.addEventListener('click', () => setMenu(mn.hidden));
+    mn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  })();
 </script>
 </body>
 </html>
